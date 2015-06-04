@@ -12,16 +12,16 @@ class Student
 	end
 		
 	def enroll(course)
-		unless @courses.include?(course)
-			error if @courses.any? {|classes| classes.conflicts_with?(course)} 
-			@courses << course
+		unless courses.include?(course)
+			error if courses.any? {|classes| classes.conflicts_with?(course)} 
+			courses << course
 			course.students << self
 		end
 	end
 	
 	def course_load
 		dpt_credit = Hash.new(0)
-		@courses.each {|course| dpt_credit[course.department] += course.credits}
+		courses.each {|course| dpt_credit[course.department] += course.credits}
 		dpt_credit
 	end
 	
@@ -52,4 +52,7 @@ class Course
 		return false
 	end
 	
+	def inspect
+		"Course: #{course_name}"
+	end
 end
