@@ -8,7 +8,7 @@ class Student
 	end
 	
 	def name
-		@first_name + " " + @last_name
+		"#{first_name} #{last_name}"
 	end
 		
 	def enroll(course)
