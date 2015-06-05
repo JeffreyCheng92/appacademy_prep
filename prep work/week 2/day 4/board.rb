@@ -13,6 +13,7 @@ class Board
     @grid[row][col] = mark
   end
   
+  #display the game board
   def display
     grid.each { |line| p line }
   end
@@ -29,26 +30,15 @@ class Board
   
   #checks if the position on the board is empty or not
   def empty?(*pos)
-    return true if self[*pos].nil?
-    return false
+    self[*pos].nil? ? (return true) : (return false)
   end
   
   #places mark on chosen position 
   def place_mark(*pos, mark)
-    check = true
-    while check
-    
-      if empty?(*pos)
-        self[*pos] = mark
-        check = false
-      else
-        pos = pos_error
-      end
-      
-    end
+    empty?(*pos) ? (self[*pos] = mark) : (pos = pos_error)
   end
-
-  #added after mike li left
+  
+  #returns array of empty locations
   def empty_position
     empty_locations = []
     grid.each_with_index do |row, row_idx|
@@ -76,12 +66,21 @@ class Board
     return false
   end
   
+  #error message and reassignment if spot is not empty
   def pos_error
-    puts "Square is occupied, please repick a square"
-    print "New row: "
-    row = gets.chomp.to_i
-    print "New column: "
-    column = gets.chomp.to_i
-    [row, column]
+    check = true
+    while check
+      puts "Invalid location, please select a new one."
+      print "New row: "
+      row = gets.chomp.to_i
+      print "New column: "
+      column = gets.chomp.to_i
+      pos = [row, column]
+      if empty?(*pos)
+        check = false 
+        return pos
+      end
+    end
   end
+  
 end
