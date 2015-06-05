@@ -37,7 +37,7 @@ class Board
   def empty?(*pos)
     self[*pos].nil?
   end
-  
+
   #places mark on chosen position 
   def place_mark(*pos, mark)
     if !valid_move?(*pos)
@@ -50,7 +50,23 @@ class Board
       self[*pos] = mark
     end
   end
-  
+
+=begin
+# OLD (NOW) WORKING CODE ~
+
+  def place_mark(*pos, mark)
+    if valid_move?(*pos) && empty?(*pos)  # if empty and valid, then place mark
+      self[*pos] = mark
+    elsif !valid_move?(*pos)              # if not valid, put out error
+      pos = off_board_error
+      self[*pos] = mark
+    else                                  # if not empty, put out error
+      pos = pos_error
+      self[*pos] = mark
+    end
+  end
+=end
+
   #returns array of empty locations
   def empty_position
     vacancies = []
