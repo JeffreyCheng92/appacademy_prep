@@ -1,8 +1,9 @@
 class HumanPlayer
 	attr_reader :marker, :name, :player_num
 	  
-	def initialize(num = nil)
-		@player_num, @name, @marker = num, username, choose_marker
+	def initialize(num)
+		@player_num = num
+	  @name, @marker = username, choose_marker
 	end
 	
 	#allows player to choose where to place marker
@@ -26,12 +27,11 @@ class HumanPlayer
 	
 	#helper class method to allow player to place marker
 	def user_move
-		print "Player #{player_num}, which row to place your marker on: "
-  	row = gets.chomp.to_i
-  	print "Player #{player_num}, which column to place your marker on: "
-    column = gets.chomp.to_i
-    
-    [row, column]
+			print "Player #{player_num}, which row to place your marker on: "
+			row = gets.chomp.to_i
+			print "Player #{player_num}, which column to place your marker on: "
+			column = gets.chomp.to_i
+		  [row, column]
 	end
 	
 end

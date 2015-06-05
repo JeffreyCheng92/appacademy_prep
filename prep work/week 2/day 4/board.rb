@@ -23,6 +23,11 @@ class Board
     won_checker
   end
   
+  #dialog in response to a tie game
+  def tie
+    puts "It's a draw! Nobody wins :("
+  end
+  
   #displays message to the winner
   def winner(player)
     puts "Congratulations #{player}! You win!"
@@ -30,23 +35,31 @@ class Board
   
   #checks if the position on the board is empty or not
   def empty?(*pos)
-    self[*pos].nil? ? (return true) : (return false)
+    self[*pos].nil?
   end
   
   #places mark on chosen position 
   def place_mark(*pos, mark)
-    empty?(*pos) ? (self[*pos] = mark) : (pos = pos_error)
+    if !valid_move?(*pos)
+      pos = off_board_error
+      self[*pos] = mark
+    elsif !empty?(*pos)
+      pos = pos_error
+      self[*pos] = mark
+    else
+      self[*pos] = mark
+    end
   end
   
   #returns array of empty locations
   def empty_position
-    empty_locations = []
+    vacancies = []
     grid.each_with_index do |row, row_idx|
       row.each_with_index do |col, col_idx|
-        empty_locations << [row_idx, col_idx] if grid[row_idx][col_idx] == nil
+        vacancies << [row_idx, col_idx] if grid[row_idx][col_idx].nil?
       end
     end
-    empty_locations
+    vacancies
   end
   
   private
@@ -70,17 +83,34 @@ class Board
   def pos_error
     check = true
     while check
-      puts "Invalid location, please select a new one."
-      print "New row: "
+      puts "Spot occupied already, please select a new one."
+      print "New row: " 
       row = gets.chomp.to_i
       print "New column: "
       column = gets.chomp.to_i
       pos = [row, column]
-      if empty?(*pos)
-        check = false 
-        return pos
-      end
+      check = false 
+      return pos if empty?(*pos)
     end
   end
   
+  #should re-get a position on the board
+  def off_board_error
+    pos = [10, 10]
+    until valid_move?(*pos)
+      puts "Please select valid location on the board."
+      print "New row: " 
+      row = gets.chomp.to_i
+      print "New column: "
+      column = gets.chomp.to_i
+      pos = [row, column]
+    end
+    pos
+  end
+  
+  #checks if the move is on the board/grid -- WORKING
+  def valid_move?(*position)
+   	[*position].all? {|coord| coord.between?(0, 2)}
+  end
+
 end

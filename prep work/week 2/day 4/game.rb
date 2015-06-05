@@ -22,12 +22,15 @@ class Game
     turn = 1
     
     until board.won?
-    
       puts "TURN: #{turn}"
       board.display
       board.place_mark(*player1.move(board), player1.marker)
       congratulations(player1)
       next if board.won?
+      if turn > 4
+        board.tie
+        break
+      end
       board.display
       board.place_mark(*player2.move(board), player2.marker)
       congratulations(player2)
@@ -69,5 +72,5 @@ class Game
         board.winner(player.name)
     end
   end
-
+  
 end
