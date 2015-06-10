@@ -1,43 +1,39 @@
 class Dictionary
+  attr_reader :entries
+  
   def initialize(entries = {})
     @entries = entries
   end
-
-  def entries
-    @entries
-  end
-
+  
   def keywords
-    @entries.keys.sort
+    entries.keys.sort
   end
-
-  def add(word_def, define = nil)
-    if word_def.is_a?(Hash)
-      word_def.each do |word, define|
-        @entries[word] = define
-      end
+  
+  def add(word)
+    if word.is_a?(Hash)
+      word.each {|key, value| entries[key] = value}
     else
-      @entries[word_def] = nil
+      entries[word] = nil
     end
   end
-
+  
   def include?(word)
-    @entries.include?(word) ? true : false
+    entries.keys.include?(word)
   end
-
+    
   def find(str)
-    temp = {}
-    @entries.each do |word, define|
-      temp[word] = define if word.include?(str)
+    return_hash = {}
+    entries.each do |key, value|
+      return_hash[key] = value if key.include?(str)
     end
-    temp
+    return_hash
   end
-
+  
   def printable
-    temp = @entries.sort.map do |key, value|
-        ("[#{key}] \"#{value}\"")
-      end
-    temp.join("\n")
+    return_string = entries.sort.map do |key, value|
+      "[#{key}] \"#{value}\""
+    end
+    return_string.join("\n")
   end
-
+  
 end
